@@ -11,7 +11,26 @@
     <!--<script src="js/virtualjoystick.js"></script>-->
     
     <script>
+      const loader = new THREE.FBXLoader();
       
+      loader.load( `fbx/run.fbx`, function( object ){
+
+        
+			mixer = new THREE.AnimationMixer( object );
+        
+      object.traverse( function ( child ) {
+				if ( child.isMesh ) {
+					child.castShadow = true;
+					child.receiveShadow = true;		
+				}
+			} );
+        
+      scene.add( object );
+      
+      var run = object.animations[0]; 
+      var runAnim = mixer.clipAction( run ); 
+      runAnim.play();
+		});	
     </script>
     
   </body>
