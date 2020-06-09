@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Game 1.0.0</title>
+    <title>Game 1.0.1</title>
   </head>
   <body>
     <!-- Three.js script -->
@@ -12,26 +12,46 @@
     <!--<script src="js/virtualjoystick.js"></script>-->
     
     <script>
-      const loader = new THREE.FBXLoader();
+      function init() {
+        var scene = new THREE.Scene();
+        var renderer = new THREE.WebGLRenderer();
+        var clock = new THREE.Clock();
+        var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
       
-      loader.load( `fbx/Rifle Run.fbx`, function( object ){
+        var ambient = new THREE.AmbientLight( 0x707070 );
+        var light =  new THREE.DirectionalLight( 0xffffff );
+	  	  light.position.set( 0, 20, 10 );
+      
+        const loader = new THREE.FBXLoader();
+      
+        loader.load( `fbx/Rifle Run.fbx`, function( object ){
 
         
-			mixer = new THREE.AnimationMixer( object );
+	  		  mixer = new THREE.AnimationMixer( object );
         
-      object.traverse( function ( child ) {
-				if ( child.isMesh ) {
-					child.castShadow = true;
-					child.receiveShadow = true;		
-				}
-			} );
+          object.traverse( function ( child ) {
+	  			  if ( child.isMesh ) {
+					    child.castShadow = true;
+					    child.receiveShadow = true;		
+			     	}
+			     } );
         
-      scene.add( object );
+          scene.add( object );
+       
+          var run = object.animations[0]; 
+          var runAnim = mixer.clipAction( run ); 
+          runAnim.play();
+		    });	
+        animate();
+      }
+      function animate() {
+        requestAnimationFrame( function(){ animate(); } );
+        
+        mixer.update( clock.getDelta );
+        
+        renderer.render( scene, camera );
+      }
       
-      var run = object.animations[0]; 
-      var runAnim = mixer.clipAction( run ); 
-      runAnim.play();
-		});	
     </script>
     
   </body>
