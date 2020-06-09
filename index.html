@@ -12,8 +12,6 @@
     <!--<script src="js/virtualjoystick.js"></script>-->
     
     <script>
-      init();
-      function init() {
         var scene = new THREE.Scene();
         var renderer = new THREE.WebGLRenderer();
         var clock = new THREE.Clock();
@@ -44,7 +42,7 @@
           runAnim.play();
 		    });	
         animate();
-      }
+	    
       function animate() {
         requestAnimationFrame( function(){ animate(); } );
         
